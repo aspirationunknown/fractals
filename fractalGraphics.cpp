@@ -20,6 +20,8 @@ void drawPolygon(Point poly[], int size, const float color[])
 
 }
 
+//function to replace a line with the generator pattern
+
 
 
 
