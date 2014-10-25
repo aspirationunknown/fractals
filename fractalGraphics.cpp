@@ -1,3 +1,5 @@
+#include "fractal.h"
+
 void drawLine(Point first, Point second, const float color[])
 {
     glColor3fv(color);
@@ -15,7 +17,7 @@ void drawPolygon(Point poly[], int size, const float color[])
     for(i = 0; i < size; ++i)
     {
         //draw a line between each pair of points
-        drawLine(poly[i], poly[(i+1)%size]/*, add color*/);
+        drawLine(poly[i], poly[(i+1)%size], color);
     }
 
 }

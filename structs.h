@@ -1,5 +1,4 @@
 #include <cmath>
-#include "fractal.h"
 
 struct Point
 {

@@ -53,10 +53,6 @@
 
 using namespace std;
 
-// keyboard press flags
-
-keyboardManager keys;
-
 // screen state
 screen current_screen = INITIATOR_SHAPE;
 int ScreenWidth = 1280;
@@ -65,24 +61,31 @@ int fps = 60;
 
 // fractal drawing stuff
 int iterations = 10;
-point[] generator;
-point[] initiator;
-point[] fractal;
+Point* generator;
+Point* initiator;
+Point* fractal;
 
 // function prototypes
 void initOpenGL( void );
 void screenSetup( void );
-void display( void );
 void step( int value);
 void reshape( int w, int h );
 void keyboard_down( unsigned char key, int x, int y);
-void* mouse_action(int button, int state, int x, int y);
+void mouse_action(int button, int state, int x, int y);
+void right_up(int x, int y);
+void left_up(int x, int y);
 
 // step functions
 void initiator_step();
 void generator_step();
 void fractal_step();
 void shared_step();
+
+// display functions
+void display( void );
+void display_initiator();
+void display_generator();
+void display_fractal();
  
  /***************************************************************************//**
  * main
@@ -150,10 +153,10 @@ void step ( int value )
     switch( current_screen )
     {
         case INITIATOR_SHAPE:
-            initiator_step( main_menu );
+            initiator_step( );
             break;
         case GENERATOR_PATTERN:
-            generator_step( practice_menu );
+            generator_step( );
             break;
         case FRACTAL:
             fractal_step();
@@ -253,14 +256,18 @@ void keyboard_down( unsigned char key, int x, int y )
  *
  * handles mouse press and release events
  ******************************************************************************/
-void* mouse_action(int button, int state, int x, int y)
+void mouse_action(int button, int state, int x, int y)
 {
     if(button == GLUT_LEFT_BUTTON)
+    {
         if(state == GLUT_UP)
             left_up(x, y);
+    }
     else
+    {
         if(state == GLUT_UP)
             right_up(x, y);
+    }
 }
 
  /***************************************************************************//**
@@ -287,27 +294,36 @@ void right_up(int x, int y)
 }
 
  /***************************************************************************//**
- * Initiator Step
+ * Display Initiator
  * Authors - Derek Stotz, Charles Parsons
  *
- * Does a step in the initiator drawing screen mode
+ * Displays relevant elements to the initiator drawing screen
  ******************************************************************************/
-void initiator_step()
+
+void display_initiator()
 {
     shared_step();
 
 }
 
  /***************************************************************************//**
- * Generator Step
+ * Display Generator
  * Authors - Derek Stotz, Charles Parsons
  *
- * Does a step in the generator drawing screen mode
+ * Displays relevant elements to the generator drawing screen
  ******************************************************************************/
-void generator_step()
+void display_generator()
 {
-    shared_step();
+}
 
+ /***************************************************************************//**
+ * Display Fractal
+ * Authors - Derek Stotz, Charles Parsons
+ *
+ * Displays relevant elements to the fractal generation screen
+ ******************************************************************************/
+void display_fractal()
+{
 }
 
  /***************************************************************************//**
@@ -330,6 +346,26 @@ void fractal_step()
         need to change.  Used by all other steps.
  ******************************************************************************/
 void shared_step()
+{
+}
+
+ /***************************************************************************//**
+ * Initiator Step
+ * Authors - Derek Stotz, Charles Parsons
+ *
+ * Does a step in the initiator drawing screen mode
+ ******************************************************************************/
+void initiator_step()
+{
+}
+
+ /***************************************************************************//**
+ * Generator Step
+ * Authors - Derek Stotz, Charles Parsons
+ *
+ * Does a step in the generator drawing screen mode
+ ******************************************************************************/
+void generator_step()
 {
 }
 
