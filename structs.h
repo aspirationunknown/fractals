@@ -30,11 +30,11 @@ struct Polygon
 
 
 //functions
-void rotate(Polygon poly[]);
+void rotate(Polygon poly);
 void rotatePoints(/*add params*/);
-void scale(Polygon  poly[]);
+void scale(Polygon  poly);
 void scalePoints(/*add params*/);
-void translate(Polygon  poly[]);
+void translate(Polygon  poly);
 void translatePoints(/*add params*/);
 
 
