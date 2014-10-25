@@ -25,9 +25,6 @@
             generator pattern.  Each iteration replaces the line segments in the
             current shape with a scaled down replication of the original generator pattern.
 
-            Authors: Derek Stotz & Charles Parsons
-
-
             Controls:
 
             Mode: Draw Initiator Shape
@@ -66,8 +63,8 @@ Polygon initiator;
 Polygon fractal;
 
 // function prototypes
-void initOpenGL( void );
-void screenSetup( void );
+void initOpenGL();
+void screenSetup();
 void step( int value);
 void reshape( int w, int h );
 void keyboard_down( unsigned char key, int x, int y);
@@ -82,7 +79,7 @@ void fractal_step();
 void shared_step();
 
 // display functions
-void display( void );
+void display();
 void display_initiator();
 void display_generator();
 void display_fractal();
@@ -281,7 +278,23 @@ void mouse_action(int button, int state, int x, int y)
  ******************************************************************************/
 void left_up(int x, int y)
 {
-    cout << "\nLeft Mouse Released at x = " << x << " y = " << y << "\n";
+    switch( current_screen )
+    {
+        case INITIATOR_SHAPE:
+            if( x < 0 )
+            {
+                initiator.addPoint(x, y);
+            }
+            break;
+        case GENERATOR_PATTERN:
+            if( x > 0 )
+            {
+                generator.addPoint(x, y);
+            }
+            break;
+        default:
+            break;
+    }
 }
 
 
@@ -387,4 +400,3 @@ void initiator_step()
 void generator_step()
 {
 }
-

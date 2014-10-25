@@ -14,4 +14,5 @@ struct Polygon
     void close();
     void addPoint( Point point );
     void addPoint( int x, int y );
+    bool normalize();
 };
