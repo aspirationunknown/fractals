@@ -57,7 +57,8 @@ int ScreenHeight = 512;
 int fps = 60;
 
 // fractal drawing stuff
-int iterations = 10;
+int iterations = 0;
+int max_iterations = 10;
 Polygon generator;
 Polygon initiator;
 Polygon fractal;
@@ -149,12 +150,6 @@ void step ( int value )
 {
     switch( current_screen )
     {
-        case INITIATOR_SHAPE:
-            initiator_step( );
-            break;
-        case GENERATOR_PATTERN:
-            generator_step( );
-            break;
         case FRACTAL:
             fractal_step();
             break;
@@ -334,8 +329,9 @@ void right_up(int x, int y)
  ******************************************************************************/
 void display_initiator()
 {
-    shared_step();
-
+    char* text = "Right-Click to Close Initiator";
+    drawText(text, - ScreenWidth + 32 );
+    drawPolygon(initiator);
 }
 
  /***************************************************************************//**
@@ -346,6 +342,9 @@ void display_initiator()
  ******************************************************************************/
 void display_generator()
 {
+    char* text = "Right-Click to End Generator";
+    drawText(text, 32 );
+    drawPolygon(generator);
 }
 
  /***************************************************************************//**
@@ -356,47 +355,34 @@ void display_generator()
  ******************************************************************************/
 void display_fractal()
 {
+    char* text = "Fractal iteration: " + itoa(iterations);
+    drawText(text, - ScreenWidth + 32 );
+    drawPolygon(fractal);
 }
 
  /***************************************************************************//**
  * Fractal Step
  * Authors - Derek Stotz, Charles Parsons
  *
- * Does a step in the fractal generation screen mode
+ * Does a step in the fractal generation screen mode.
+ * Creates a new fractal from the old one and the generation pattern.
  ******************************************************************************/
 void fractal_step()
 {
-    shared_step();
+    if(iterations >= iterations_max)
+        return;
 
-}
-
- /***************************************************************************//**
- * Shared Step
- * Authors - Derek Stotz, Charles Parsons
- *
- * Does a step in the environment, telling what parts of the application's state
-        need to change.  Used by all other steps.
- ******************************************************************************/
-void shared_step()
-{
-}
-
- /***************************************************************************//**
- * Initiator Step
- * Authors - Derek Stotz, Charles Parsons
- *
- * Does a step in the initiator drawing screen mode
- ******************************************************************************/
-void initiator_step()
-{
-}
-
- /***************************************************************************//**
- * Generator Step
- * Authors - Derek Stotz, Charles Parsons
- *
- * Does a step in the generator drawing screen mode
- ******************************************************************************/
-void generator_step()
-{
+    Polygon new_fractal;
+    new_fractal.points = Points[1000000];
+    for( int i = 0; i < fractal.length - 1; i++ )
+    {
+        Polygon fractal_addition = fit_pattern(generator, fractal[i], fractal[i + 1]);
+        for ( int j = 0; j < fractal_addition.length; j++ )
+        {
+            new_fractal.addPoint(fractal_addition[j]);
+        }
+    }
+    iterations++;
+    delete fractal.Points;
+    fractal = new_fractal;
 }

@@ -27,4 +27,3 @@ void translate(Polygon  poly[]);
 void translatePoints(/*add params*/);
 
 
-
