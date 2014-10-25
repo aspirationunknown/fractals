@@ -57,6 +57,8 @@ int ScreenHeight = 512;
 int fps = 60;
 
 // fractal drawing stuff
+Point mouse_point;
+bool mouse_pressed = false;
 int iterations = 0;
 int max_iterations = 10;
 Polygon generator;
@@ -70,6 +72,7 @@ void step( int value);
 void reshape( int w, int h );
 void keyboard_down( unsigned char key, int x, int y);
 void mouse_action(int button, int state, int x, int y);
+void mouse_movement(int x, int y);
 void right_up(int x, int y);
 void left_up(int x, int y);
 
@@ -129,6 +132,7 @@ void initOpenGL( void )
     glutIgnoreKeyRepeat(1); // ignore repeated key presses
     glutKeyboardFunc( keyboard_down );
     glutMouseFunc(mouse_action);
+    glutPassiveMotionFunc(mouse_movement);
 
     glClearColor( 0.0, 0.0, 0.0, 1.0 );                 // use black for glClear command
     glutDisplayFunc( display );
@@ -257,6 +261,8 @@ void mouse_action(int button, int state, int x, int y)
     {
         if(state == GLUT_UP)
             left_up(x, y);
+        else
+            mouse_pressed = true;
     }
     else
     {
@@ -290,6 +296,7 @@ void left_up(int x, int y)
         default:
             break;
     }
+    mouse_pressed = false;
 }
 
 
@@ -332,6 +339,8 @@ void display_initiator()
     char* text = "Right-Click to Close Initiator";
     drawText(text, - ScreenWidth + 32 );
     drawPolygon(initiator);
+    if(mouse_pressed && initiator.length >= 1)
+        drawLine(initiator.points[initiator.length-1], mouse_point, {WHITE[0], WHITE[1], WHITE[2]});
 }
 
  /***************************************************************************//**
@@ -345,6 +354,8 @@ void display_generator()
     char* text = "Right-Click to End Generator";
     drawText(text, 32 );
     drawPolygon(generator);
+    if(mouse_pressed && generator.length >= 1)
+        drawLine(generator.points[generator.length-1], mouse_point, {WHITE[0], WHITE[1], WHITE[2]});
 }
 
  /***************************************************************************//**
@@ -385,4 +396,16 @@ void fractal_step()
     iterations++;
     delete fractal.Points;
     fractal = new_fractal;
+}
+
+ /***************************************************************************//**
+ * Mouse Movement
+ * Authors - Derek Stotz, Charles Parsons
+ *
+ * Updates the mouse point when the pointer is moved
+ ******************************************************************************/
+void mouse_movement(int x, int y)
+{
+    mouse_point.x = x;
+    mouse_point.y = y;
 }
