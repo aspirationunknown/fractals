@@ -48,7 +48,7 @@
             No bugs to speak of.
  *
  ******************************************************************************/
-#include "fractalGraphics.h"
+#include "fractal.h"
 #include <cmath>
 
 using namespace std;
@@ -57,28 +57,17 @@ using namespace std;
 
 keyboardManager keys;
 
-bool up_pressed = false;
-bool down_pressed = false;
-bool left_pressed = false;
-bool right_pressed = false;
-
-bool minus_pressed = false;
-bool plus_pressed = false;
-
-bool w_pressed = false;
-bool s_pressed = false;
-bool a_pressed = false;
-bool d_pressed = false;
-
-bool enter_pressed = false;
-bool space_pressed = false;
-bool shift_pressed = false;
-
 // screen state
 screen current_screen = INITIATOR_SHAPE;
 int ScreenWidth = 1280;
 int ScreenHeight = 512;
 int fps = 60;
+
+// fractal drawing stuff
+int iterations = 10;
+point[] generator;
+point[] initiator;
+point[] fractal;
 
 // function prototypes
 void initOpenGL( void );
@@ -86,10 +75,8 @@ void screenSetup( void );
 void display( void );
 void step( int value);
 void reshape( int w, int h );
-void keyboard_up( unsigned char key, int x, int y );
-void keyboard_down( unsigned char key, int x, int y );
-void special_up( int key, int x, int y );
-void special_down( int key, int x, int y );
+void keyboard_down( unsigned char key, int x, int y);
+void* mouse_action(int button, int state, int x, int y);
 
 // step functions
 void initiator_step();
@@ -109,8 +96,13 @@ void shared_step();
  ******************************************************************************/
 int main ( int argc, char *argv[] )
 {  
-    //start displaying
-    screenMenuSetup();
+    // set the max iterations to the command line argument
+
+    if ( argc > 1 )
+        iterations = atoi(argv[1]);
+
+    // start displaying
+    screenSetup();
     glutInit(&argc, argv);
     initOpenGL();
     glutMainLoop();    
@@ -134,10 +126,8 @@ void initOpenGL( void )
     glutCreateWindow( "Fractals" );                  // window title
 
     glutIgnoreKeyRepeat(1); // ignore repeated key presses
-    glutKeyboardUpFunc( keyboard_up );
     glutKeyboardFunc( keyboard_down );
-    glutSpecialUpFunc( special_up );
-    glutSpecialFunc( special_down );
+    glutMouseFunc(mouse_action);
 
     glClearColor( 0.0, 0.0, 0.0, 1.0 );                 // use black for glClear command
     glutDisplayFunc( display );
@@ -250,35 +240,6 @@ void keyboard_down( unsigned char key, int x, int y )
 {
     switch( key )
     {
-        case '-':
-            minus_pressed = true;
-            break;
-        case '=':
-        case '+':
-            plus_pressed =  true;
-            break;
-        case 'w':
-        case 'W':
-            w_pressed = true;
-            break;
-        case 's':
-        case 'S':
-            s_pressed = true;
-            break;
-        case 'a':
-        case 'A':
-            a_pressed = true;
-            break;
-        case 'd':
-        case 'D':
-            d_pressed = true;
-            break;
-        case 13:
-            enter_pressed = true;
-            break;
-        case ' ':
-            space_pressed = true;
-            break;
         case 27:
             exit ( 0 );
         default:
@@ -287,113 +248,79 @@ void keyboard_down( unsigned char key, int x, int y )
 }
 
  /***************************************************************************//**
- * keyboard_up
+ * mouse_action
  * Authors - Derek Stotz, Charles Parsons
  *
- * handles key release events
+ * handles mouse press and release events
  ******************************************************************************/
-void keyboard_up( unsigned char key, int x, int y )
+void* mouse_action(int button, int state, int x, int y)
 {
-    switch( key )
-    {
-        case '-':
-            minus_pressed = false;
-            break;
-        case '+':
-        case '=':
-            plus_pressed = false;
-            break;
-        case 'w':
-        case 'W':
-            w_pressed = false;
-            break;
-        case 's':
-        case 'S':
-            s_pressed = false;
-            break;
-        case 'a':
-        case 'A':
-            a_pressed = false;
-            break;
-        case 'd':
-        case 'D':
-            d_pressed = false;
-            break;
-        case '\n':
-            enter_pressed = false;
-            break;
-        case ' ':
-            space_pressed = false;
-        default:
-            break;
-    }
+    if(button == GLUT_LEFT_BUTTON)
+        if(state == GLUT_UP)
+            left_up(x, y);
+    else
+        if(state == GLUT_UP)
+            right_up(x, y);
 }
 
  /***************************************************************************//**
- * special_down
+ * left_up
  * Authors - Derek Stotz, Charles Parsons
  *
- * handles key press events for arrow keys
+ * handles left mouse button click actions
  ******************************************************************************/
-void special_down( int key, int x, int y )
+void left_up(int x, int y)
 {
-    switch( key )
-    {
-        case GLUT_KEY_UP:
-            up_pressed = true;
-            break;
-        case GLUT_KEY_DOWN:
-            down_pressed = true;
-            break;
-        case GLUT_KEY_LEFT:
-            left_pressed = true;
-            break;
-        case GLUT_KEY_RIGHT:
-            right_pressed = true;
-        default:
-            break;
-    }
-}
-
- /***************************************************************************//**
- * special_up
- * Authors - Derek Stotz, Charles Parsons
- *
- * handles key release events for special keys
- ******************************************************************************/
-void special_up( int key, int x, int y )
-{
-    switch( key )
-    {
-        case GLUT_KEY_UP:
-            up_pressed = false;
-            break;
-        case GLUT_KEY_DOWN:
-            down_pressed = false;
-            break;
-        case GLUT_KEY_LEFT:
-            left_pressed = false;
-            break;
-        case GLUT_KEY_RIGHT:
-            right_pressed = false;
-        default:
-            break;
-    }
+    cout << "\nLeft Mouse Released at x = " << x << " y = " << y << "\n";
 }
 
 
  /***************************************************************************//**
- * Game Step
+ * right_up
  * Authors - Derek Stotz, Charles Parsons
  *
- * Does a step in the initiator generation screen mode
+ * handles right mouse button click actions
+ ******************************************************************************/
+void right_up(int x, int y)
+{
+    cout << "\nRight Mouse Released at x = " << x << " y = " << y << "\n";
+}
+
+ /***************************************************************************//**
+ * Initiator Step
+ * Authors - Derek Stotz, Charles Parsons
+ *
+ * Does a step in the initiator drawing screen mode
  ******************************************************************************/
 void initiator_step()
 {
     shared_step();
 
-    }
+}
 
+ /***************************************************************************//**
+ * Generator Step
+ * Authors - Derek Stotz, Charles Parsons
+ *
+ * Does a step in the generator drawing screen mode
+ ******************************************************************************/
+void generator_step()
+{
+    shared_step();
+
+}
+
+ /***************************************************************************//**
+ * Fractal Step
+ * Authors - Derek Stotz, Charles Parsons
+ *
+ * Does a step in the fractal generation screen mode
+ ******************************************************************************/
+void fractal_step()
+{
+    shared_step();
+
+}
 
  /***************************************************************************//**
  * Shared Step
