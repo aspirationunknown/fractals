@@ -61,9 +61,9 @@ int fps = 60;
 
 // fractal drawing stuff
 int iterations = 10;
-Point* generator;
-Point* initiator;
-Point* fractal;
+Polygon generator;
+Polygon initiator;
+Polygon fractal;
 
 // function prototypes
 void initOpenGL( void );
@@ -231,6 +231,9 @@ void reshape( int w, int h )
  ******************************************************************************/
 void screenSetup()
 {
+    initiator.points = new Point[100];
+    generator.points = new Point[100];
+    fractal.points = new Point[1000000];
 }
 
  /***************************************************************************//**
@@ -290,7 +293,24 @@ void left_up(int x, int y)
  ******************************************************************************/
 void right_up(int x, int y)
 {
-    cout << "\nRight Mouse Released at x = " << x << " y = " << y << "\n";
+    switch( current_screen )
+    {
+        case INITIATOR_SHAPE:
+            if( initiator.length > 2 )
+            {
+                initiator.close();
+                current_screen = GENERATOR_PATTERN;
+            }
+            break;
+        case GENERATOR_PATTERN:
+            if( generator.length > 1 )
+            {
+                current_screen = FRACTAL;
+            }
+            break;
+        default:
+            break;
+    }
 }
 
  /***************************************************************************//**
@@ -299,7 +319,6 @@ void right_up(int x, int y)
  *
  * Displays relevant elements to the initiator drawing screen
  ******************************************************************************/
-
 void display_initiator()
 {
     shared_step();
