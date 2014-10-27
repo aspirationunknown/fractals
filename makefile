@@ -25,22 +25,22 @@ OBJS = fractal.o fractalGraphics.o structs.o
 
 fractal: fractal.o fractalGraphics.o structs.o 
 
-	g++ ${OBJS} ${CXXFLAGS} -o fractal ${GL_LIBS}
+	${LINK} ${OBJS} ${CXXFLAGS} -o fractal ${GL_LIBS}
 
 
 fractal.o: fractal.cpp fractal.h structs.o
 
-	g++ ${CXXFLAGS} -c fractal.cpp ${GL_LIBS}
+	${CXX} ${CXXFLAGS} -c fractal.cpp ${GL_LIBS}
 
 
 fractalGraphics.o: fractalGraphics.cpp fractal.h structs.o
 
-	g++ ${CXXFLAGS} -c fractalGraphics.cpp ${GL_LIBS}
+	${CXX} ${CXXFLAGS} -c fractalGraphics.cpp ${GL_LIBS}
 
 
 structs.o: structs.cpp structs.h
 
-	g++ ${CXXFLAGS} -c structs.cpp ${GL_LIBS}
+	${CXX} ${CXXFLAGS} -c structs.cpp ${GL_LIBS}
 
 clean:
 

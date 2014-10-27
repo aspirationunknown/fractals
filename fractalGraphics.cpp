@@ -10,14 +10,16 @@ void drawLine(Point first, Point second, const float color[])
     glFlush();
 }
 
-void drawPolygon(Polygon poly[], int size, const float color[])
+void drawPolygon(Polygon poly, const float color[])
 {
-    int i;
+    int i, size;
 
-    for(i = 0; i < poly.length; ++i)
+    size = poly.length;
+
+    for(i = 0; i < size; ++i)
     {
         //draw a line between each pair of points
-        drawLine(poly[i], poly[(i+1)%poly.length], color);
+        drawLine(poly.points[i], poly.points[(i+1)%size], color);
     }
 
 }

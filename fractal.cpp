@@ -338,9 +338,9 @@ void display_initiator()
 {
     char* text = "Right-Click to Close Initiator";
     drawText(text, - ScreenWidth + 32 );
-    drawPolygon(initiator);
+    drawPolygon(initiator, White);
     if(mouse_pressed && initiator.length >= 1)
-        drawLine(initiator.points[initiator.length-1], mouse_point, {White[0], White[1], White[2]});
+        drawLine(initiator.points[initiator.length-1], mouse_point, White);
 }
 
  /***************************************************************************//**
@@ -353,9 +353,9 @@ void display_generator()
 {
     char* text = "Right-Click to End Generator";
     drawText(text, 32 );
-    drawPolygon(generator);
+    drawPolygon(generator, White);
     if(mouse_pressed && generator.length >= 1)
-        drawLine(generator.points[generator.length-1], mouse_point, {White[0], White[1], White[2]});
+        drawLine(generator.points[generator.length-1], mouse_point, White);
 }
 
  /***************************************************************************//**
@@ -366,9 +366,18 @@ void display_generator()
  ******************************************************************************/
 void display_fractal()
 {
-    char* text = "Fractal iteration: " + itoa(iterations);
+    char* iter_str;
+    char* text;
+
+    text = new char[30];
+    iter_str = new char[30];
+    itoa(iterations, iter_str, 10);
+    strcpy(text, "Fractal iteration: ");
+    strcat(text, iter_str);
     drawText(text, - ScreenWidth + 32 );
-    drawPolygon(fractal);
+    drawPolygon(fractal, Cyan);
+    delete text;
+    delete iter_str;
 }
 
  /***************************************************************************//**
@@ -380,7 +389,7 @@ void display_fractal()
  ******************************************************************************/
 void fractal_step()
 {
-    if(iterations >= iterations_max)
+    if(iterations >= max_iterations)
         return;
 
     Polygon new_fractal;
@@ -390,11 +399,11 @@ void fractal_step()
         Polygon fractal_addition = fit_pattern(generator, fractal[i], fractal[i + 1]);
         for ( int j = 0; j < fractal_addition.length; j++ )
         {
-            new_fractal.addPoint(fractal_addition[j]);
+            new_fractal.addPoint(fractal_addition.points[j]);
         }
     }
     iterations++;
-    delete fractal.Points;
+    delete fractal.points;
     fractal = new_fractal;
 }
 
