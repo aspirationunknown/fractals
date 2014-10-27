@@ -340,7 +340,7 @@ void display_initiator()
     drawText(text, - ScreenWidth + 32 );
     drawPolygon(initiator);
     if(mouse_pressed && initiator.length >= 1)
-        drawLine(initiator.points[initiator.length-1], mouse_point, {WHITE[0], WHITE[1], WHITE[2]});
+        drawLine(initiator.points[initiator.length-1], mouse_point, {White[0], White[1], White[2]});
 }
 
  /***************************************************************************//**
@@ -355,7 +355,7 @@ void display_generator()
     drawText(text, 32 );
     drawPolygon(generator);
     if(mouse_pressed && generator.length >= 1)
-        drawLine(generator.points[generator.length-1], mouse_point, {WHITE[0], WHITE[1], WHITE[2]});
+        drawLine(generator.points[generator.length-1], mouse_point, {White[0], White[1], White[2]});
 }
 
  /***************************************************************************//**
@@ -384,7 +384,7 @@ void fractal_step()
         return;
 
     Polygon new_fractal;
-    new_fractal.points = Points[1000000];
+    new_fractal.points = new(nothrow) Point[1000000];
     for( int i = 0; i < fractal.length - 1; i++ )
     {
         Polygon fractal_addition = fit_pattern(generator, fractal[i], fractal[i + 1]);

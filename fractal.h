@@ -15,3 +15,4 @@ void drawLine( float x1, float y1, float x2, float y2, const float color[] );
 void drawFilledEllipse( float x, float y, float xRadius, float yRadius, float color[] );
 void drawFilledRectangle( float x1, float y1, float x2, float y2, float color[] );
 void drawPolygon(Point poly[]);
+void drawText(char* text, int x);

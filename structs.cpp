@@ -1,4 +1,3 @@
-#include <cmath>
 #include "structs.h"
 
 void Polygon::close()
@@ -35,7 +34,7 @@ void rotate(Polygon poly, double angle)
     rotatePoints(poly.points, poly.length, angle);
 }
 
-void rotatePoints(Points* points, int size, double angle)
+void rotatePoints(Point* points, int size, double angle)
 {
     Point current;
     int i;
@@ -52,7 +51,7 @@ void scale(Polygon poly)
 {
     scalePoints(poly.points, poly.length);
 }
-void scalePoints(Points* points, int size)
+void scalePoints(Point* points, int size)
 {
     Point begin, end; //points where generator pattern begins and ends
     double distance; //distance between begin and end
@@ -75,7 +74,7 @@ void translate(Polygon poly)
     translatePoints(poly.points, poly.length);
 }
 
-void translatePoints(Points* points, int size)
+void translatePoints(Point* points, int size)
 {
     int delta_x, delta_y, i;
 

@@ -45,6 +45,11 @@ void drawField(int screen_height, int screen_width)
     
 }
 
+void drawText(char* text, int x)
+{
+    drawBitmapString(text, x, 0, Yellow);
+}
+
 //function to replace a line with the generator pattern
 
 
@@ -59,7 +64,7 @@ void drawField(int screen_height, int screen_width)
     y - the y location to draw the string on the screen
     color -the color the draw the string, stored in a 3-element array
  ******************************************************************************/
-void DrawBitmapString( const char *string, float x, float y, float color[] )
+void drawBitmapString( const char *string, float x, float y, float color[] )
 {
     glColor3f( color[0], color[1], color[2] );
     glRasterPos2f( x, y );
