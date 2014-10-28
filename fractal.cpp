@@ -252,7 +252,7 @@ void reshape( int w, int h )
  ******************************************************************************/
 void screenSetup()
 {
-    initiator.points = new Point[100];
+    initiator.points = new Point[100000];
     initiator.addPoint(-ScreenWidth + 256, 0);
     generator.points = new Point[100];
     generator.addPoint(64, 0);
@@ -426,12 +426,15 @@ void fractal_step()
     for( unsigned long i = 0; i < initiator.length - 1; i++ )
     {
         cout << "starting new edge" << endl;
-        Polygon fractal_addition = fitPattern(generator, initiator.points[i], initiator.points[i + 1]);
+        Polygon fractal_addition;
+        fractal_addition.points = new Point[100000];
+	    fitPattern(generator, initiator.points[i], initiator.points[i + 1], fractal_addition);
         for ( unsigned long j = 0; j < fractal_addition.length; j++ )
         {
             cout << "adding fractal piont x = " << new_fractal.points[j].x << " y = " << new_fractal.points[j].y << endl;
             new_fractal.addPoint(fractal_addition.points[j]);
         }
+        delete fractal_addition.points;
     }
     iterations++;
     cout << "replacing old fractal points" << endl;
