@@ -28,10 +28,10 @@ void drawPolygon(Polygon poly, const float color[])
 
     size = poly.length;
 
-    for(i = 0; i < size; ++i)
+    for(i = 0; i < size - 1; ++i)
     {
         //draw a line between each pair of points
-        drawLine(poly.points[i], poly.points[(i+1)%size], color);
+        drawLine(poly.points[i], poly.points[i+1], color);
     }
 
 }

@@ -132,7 +132,7 @@ void initOpenGL( void )
     glutIgnoreKeyRepeat(1); // ignore repeated key presses
     glutKeyboardFunc( keyboard_down );
     glutMouseFunc(mouse_action);
-    glutPassiveMotionFunc(mouse_movement);
+    glutMotionFunc(mouse_movement);
 
     glClearColor( 0.0, 0.0, 0.0, 1.0 );                 // use black for glClear command
     glutDisplayFunc( display );
@@ -176,9 +176,14 @@ void display( void )
     switch( current_screen )
     {
         case INITIATOR_SHAPE:
+            if(mouse_pressed && initiator.length >= 1)
+                drawLine(initiator.points[initiator.length-1], mouse_point, White);
             display_initiator();
             break;
         case GENERATOR_PATTERN:
+            if(mouse_pressed && generator.length >= 1)
+                drawLine(generator.points[generator.length-1], mouse_point, White);
+            display_initiator();
             display_generator();
             break;
         case FRACTAL:
@@ -228,7 +233,9 @@ void reshape( int w, int h )
 void screenSetup()
 {
     initiator.points = new Point[100];
+    initiator.addPoint(-ScreenWidth + 64, 0);
     generator.points = new Point[100];
+    generator.addPoint(64, 0);
     fractal.points = new Point[1000000];
 }
 
@@ -282,15 +289,15 @@ void left_up(int x, int y)
     switch( current_screen )
     {
         case INITIATOR_SHAPE:
-            if( x < 0 )
+            if( x < ScreenWidth/2 )
             {
-                initiator.addPoint(x, y);
+                initiator.addPoint(x * 2 - ScreenWidth, - y * 2 + ScreenHeight);
             }
             break;
         case GENERATOR_PATTERN:
-            if( x > 0 )
+            if( x > ScreenWidth/2 )
             {
-                generator.addPoint(x, y);
+                generator.addPoint(x * 2 - ScreenWidth, - y * 2 + ScreenHeight);
             }
             break;
         default:
@@ -340,8 +347,6 @@ void display_initiator()
     strcpy(text, "Right-Click to Close Initiator");
     drawText(text, - ScreenWidth + 32 );
     drawPolygon(initiator, White);
-    if(mouse_pressed && initiator.length >= 1)
-        drawLine(initiator.points[initiator.length-1], mouse_point, White);
     delete text;
 }
 
@@ -357,8 +362,6 @@ void display_generator()
     strcpy(text, "Right-Click to End Generator");
     drawText(text, 32 );
     drawPolygon(generator, White);
-    if(mouse_pressed && generator.length >= 1)
-        drawLine(generator.points[generator.length-1], mouse_point, White);
     delete text;
 }
 
@@ -416,6 +419,7 @@ void fractal_step()
  ******************************************************************************/
 void mouse_movement(int x, int y)
 {
-    mouse_point.x = x;
-    mouse_point.y = y;
+    cout << "MOUSE MOVED to x = " << x << endl;
+    mouse_point.x = x * 2 - ScreenWidth;
+    mouse_point.y = - y * 2 + ScreenHeight;
 }
