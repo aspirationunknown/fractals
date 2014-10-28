@@ -23,9 +23,23 @@ void Polygon::addPoint(int x, int y)
 
 bool Polygon::normalize()
 {
+    int delta_x, delta_y;
+    double distance, theta;
+
     // transforms an open polygon so the first and last points are on (0, 0) and (1, 0)
     if (this->points[0].x == this -> points[this->length-1].x && this->points[0].y == this -> points[this->length-1].y)
         return false;
+
+    //scale to length 1
+    delta_x = this->points[this->length-1].x - this->points[0].x;
+    delta_y = this->points[this->length-1].y - this->points[0].y;
+    distance = sqrt((delta_x*delta_x) + (delta_y * delta_y));
+    scale(*this, (1.0 / distance));
+
+    //rotate so first and last points are on x-axis
+    theta = atan(delta_y / delta_x);
+    rotate(*this, -theta);
+
 }
 
  /***************************************************************************//**

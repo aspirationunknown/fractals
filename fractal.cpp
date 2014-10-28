@@ -60,7 +60,7 @@ int fps = 60;
 Point mouse_point;
 bool mouse_pressed = false;
 int iterations = 0;
-int max_iterations = 10;
+int max_iterations = 1;
 Polygon generator;
 Polygon initiator;
 Polygon fractal;
@@ -406,7 +406,7 @@ void fractal_step()
         Polygon fractal_addition = fitPattern(generator, fractal.points[i], fractal.points[i + 1]);
         for ( int j = 0; j < fractal_addition.length; j++ )
         {
-            cout << "adding fractal piont..." << endl;
+            cout << "adding fractal piont..." << fractal_addition.points[j].x << " " << fractal_addition.points[j].y << endl;
             new_fractal.addPoint(fractal_addition.points[j]);
         }
     }
