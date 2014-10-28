@@ -26,6 +26,7 @@ bool Polygon::normalize()
     // transforms an open polygon so the first and last points are on (0, 0) and (1, 0)
     if (this->points[0].x == this -> points[this->length-1].x && this->points[0].y == this -> points[this->length-1].y)
         return false;
+    return true;
 }
 
  /***************************************************************************//**

@@ -20,7 +20,7 @@ struct Point
 struct Polygon
 {
     Point* points;
-    int length = 0;   // the number of points  
+    unsigned long length = 0;   // the number of points  
 
     void close();
     void addPoint( Point point );

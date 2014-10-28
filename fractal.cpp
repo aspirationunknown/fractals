@@ -60,10 +60,9 @@ int fps = 60;
 Point mouse_point;
 bool mouse_pressed = false;
 int iterations = 0;
-int max_iterations = 10;
+int max_iterations = 1;
 Polygon generator;
 Polygon initiator;
-Polygon fractal;
 
 // function prototypes
 void initOpenGL();
@@ -236,7 +235,6 @@ void screenSetup()
     initiator.addPoint(-ScreenWidth + 64, 0);
     generator.points = new Point[100];
     generator.addPoint(64, 0);
-    fractal.points = new Point[1000000];
 }
 
  /***************************************************************************//**
@@ -379,9 +377,8 @@ void display_fractal()
     strcpy(text, "Fractal iteration: ");
     strcat(text, iter_str);
     drawText(text, - ScreenWidth + 32 );
-    drawPolygon(fractal, Cyan, false);
+    drawPolygon(generator, White, false);
     delete text;
-    delete iter_str;
 }
 
  /***************************************************************************//**
@@ -397,24 +394,28 @@ void fractal_step()
         return;
 
     Polygon new_fractal;
-    cout << "- creating new points" << endl;
-    new_fractal.points = new(nothrow) Point[1000000];
-    for( int i = 0; i < fractal.length - 1; i++ )
+    cout << "Fractal Length: " << itoa(generator.length) << endl;
+    new_fractal.points = new Point[1000000];
+    for( unsigned long i = 0; i < generator.length - 1; i++ )
     {
         cout << "starting new edge" << endl;
-        Polygon fractal_addition = fitPattern(generator, fractal.points[i], fractal.points[i + 1]);
-        for ( int j = 0; j < fractal_addition.length; j++ )
+        Polygon fractal_addition = fitPattern(generator, generator.points[i], generator.points[i + 1]);
+        for ( unsigned long j = 0; j < fractal_addition.length; j++ )
         {
             cout << "adding fractal piont..." << endl;
             new_fractal.addPoint(fractal_addition.points[j]);
         }
     }
     iterations++;
-    cout << "deleting old fractal points" << endl;
-    delete fractal.points;
-    cout << "changing out fractals!" << endl;
-    fractal.points = new_fractal.points;
-    fractal.length = new_fractal.length;
+    cout << "replacing old fractal points" << endl;
+    generator.length = new_fractal.length;
+
+    for(unsigned long i = 0; i < generator.length; i++)
+    {
+        generator.points[i] = new_fractal.points[i];
+    }
+
+    delete new_fractal.points;
 }
 
  /***************************************************************************//**

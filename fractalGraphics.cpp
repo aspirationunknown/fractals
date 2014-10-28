@@ -99,7 +99,10 @@ Polygon fitPattern(Polygon poly, Point start, Point end)
     //find theta between angle at P1 and P2
     delta_x = end.x - start.x;
     delta_y = end.y - start.y;
-    theta = atan(delta_y / delta_x);
+    if(delta_x == 0 )
+        theta = M_PI / 2 * -1 * (delta_y < 0);
+    else
+        theta = atan(delta_y / delta_x);
 
     //scale by distance fit P1 to fit P2
     distance = sqrt((delta_x * delta_x) + (delta_y * delta_y));
