@@ -125,6 +125,24 @@ const char* itoa(int num)
     return str.c_str();
     
 }
+
+ /***************************************************************************//**
+ * drawCircle
+ * Authors - Derek Stotz, Charles Parsons, Dr. Weiss(from DrawFilledEllipse)
+ *
+ * Draws a white circle around a given point.
+ ******************************************************************************/
+drawCircle(Point point)
+{
+    int radius = 2;
+
+    glColor3f( White[0], White[1], White[2] );
+    glPushMatrix();
+    GLUquadricObj *disk = gluNewQuadric();
+    gluDisk( disk, radius, radius, radius, 1 );
+    gluDeleteQuadric( disk );
+    glPopMatrix();
+}
 //function to replace a line with the generator pattern
 
 
