@@ -31,60 +31,44 @@ bool Polygon::normalize()
 //transform functions
 void rotate(Polygon poly, double angle)
 {
-    rotatePoints(poly.points, poly.length, angle);
-}
-
-void rotatePoints(Point* points, int size, double angle)
-{
     Point current;
-    int i;
+    int i, size;
+
+    size = poly.length;
 
     for(i = 0; i < size; ++i)
     {
-        current = points[i];
-        points[i].x = current.x * cos(angle) - current.y * sin(angle);
-        points[i].y = current.x * sin(angle) - current.y * cos(angle);
+        current.x = poly.points[i].x;
+        current.y = poly.points[i].y;
+        poly.points[i].x = current.x * cos(angle) - current.y * sin(angle);
+        poly.points[i].y = current.x * sin(angle) - current.y * cos(angle);
     }
 }
 
-void scale(Polygon poly)
+void scale(Polygon poly, double scalar)
 {
-    scalePoints(poly.points, poly.length);
-}
-void scalePoints(Point* points, int size)
-{
-    Point begin, end; //points where generator pattern begins and ends
-    double distance; //distance between begin and end
-    int i;
+    int i, size;
 
-    begin = points[0];
-    end = points[size-1]; 
-
-    distance = sqrt((end.x - begin.x)*(end.x - begin.x) + (end.y - begin.y) * (end.y - begin.y));
+    size = poly.length;
 
     for(i = 0; i < size; ++i)
     {
-        points[i].x *= (1.0 / distance);
-        points[i].y *= (1.0 / distance);
+        poly.points[i].x *= scalar;
+        poly.points[i].y *= scalar;
     }
 }
 
-void translate(Polygon poly)
+void translate(Polygon poly, int x, int y)
 {
-    translatePoints(poly.points, poly.length);
-}
 
-void translatePoints(Point* points, int size)
-{
-    int delta_x, delta_y, i;
-
-    delta_x = -points[0].x;
-    delta_y = -points[0].y;
+    int i, size;
+    
+    size = poly.length;
 
     for(i = 0; i < size; ++i)
     {
-        points[i].x += delta_x;
-        points[i].y += delta_y;
+        poly.points[i].x += x;
+        poly.points[i].y += y;
     }
 }
 

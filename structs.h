@@ -31,10 +31,7 @@ struct Polygon
 
 //functions
 void rotate(Polygon poly, double angle);
-void rotatePoints(Point* points, int size, double angle);
-void scale(Polygon  poly);
-void scalePoints(Point* points, int size);
-void translate(Polygon poly);
-void translatePoints(Point* points, int size);
+void scale(Polygon poly, double scalar);
+void translate(Polygon poly, int x, int y);
 
 

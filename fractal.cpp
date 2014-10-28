@@ -366,12 +366,11 @@ void display_generator()
  ******************************************************************************/
 void display_fractal()
 {
-    char* iter_str;
+    const char* iter_str = itoa(iterations);
     char* text;
 
     text = new char[30];
-    iter_str = new char[30];
-    itoa(iterations, iter_str, 10);
+
     strcpy(text, "Fractal iteration: ");
     strcat(text, iter_str);
     drawText(text, - ScreenWidth + 32 );
@@ -396,7 +395,7 @@ void fractal_step()
     new_fractal.points = new(nothrow) Point[1000000];
     for( int i = 0; i < fractal.length - 1; i++ )
     {
-        Polygon fractal_addition = fit_pattern(generator, fractal[i], fractal[i + 1]);
+        Polygon fractal_addition = fitPattern(generator, fractal.points[i], fractal.points[i + 1]);
         for ( int j = 0; j < fractal_addition.length; j++ )
         {
             new_fractal.addPoint(fractal_addition.points[j]);
