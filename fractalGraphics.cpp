@@ -22,18 +22,22 @@ void drawLine(Point first, Point second, const float color[])
  *
  * Draws a given polygon in a given color.
  ******************************************************************************/
-void drawPolygon(Polygon poly, const float color[])
+void drawPolygon(Polygon poly, const float color[], bool drawPoints)
 {
     int i, size;
 
     size = poly.length;
 
+    if(drawPoints)
+        drawCircle(poly.points[0]);
+
     for(i = 0; i < size - 1; ++i)
     {
         //draw a line between each pair of points
+        if(drawPoints)
+            drawCircle(poly.points[i+1]);
         drawLine(poly.points[i], poly.points[i+1], color);
     }
-
 }
 
  /***************************************************************************//**
@@ -132,9 +136,9 @@ const char* itoa(int num)
  *
  * Draws a white circle around a given point.
  ******************************************************************************/
-drawCircle(Point point)
+void drawCircle(Point point)
 {
-    int radius = 2;
+    int radius = 20;
 
     glColor3f( White[0], White[1], White[2] );
     glPushMatrix();

@@ -346,7 +346,7 @@ void display_initiator()
     char* text = new(nothrow) char[30];
     strcpy(text, "Right-Click to Close Initiator");
     drawText(text, - ScreenWidth + 32 );
-    drawPolygon(initiator, White);
+    drawPolygon(initiator, White, true);
     delete text;
 }
 
@@ -361,7 +361,7 @@ void display_generator()
     char* text = new(nothrow) char[30];
     strcpy(text, "Right-Click to End Generator");
     drawText(text, 32 );
-    drawPolygon(generator, White);
+    drawPolygon(generator, White, true);
     delete text;
 }
 
@@ -379,7 +379,7 @@ void display_fractal()
     strcpy(text, "Fractal iteration: ");
     strcat(text, iter_str);
     drawText(text, - ScreenWidth + 32 );
-    drawPolygon(fractal, Cyan);
+    drawPolygon(fractal, Cyan, false);
     delete text;
     delete iter_str;
 }
@@ -397,17 +397,22 @@ void fractal_step()
         return;
 
     Polygon new_fractal;
+    cout << "- creating new points" << endl;
     new_fractal.points = new(nothrow) Point[1000000];
     for( int i = 0; i < fractal.length - 1; i++ )
     {
+        cout << "starting new edge" << endl;
         Polygon fractal_addition = fitPattern(generator, fractal.points[i], fractal.points[i + 1]);
         for ( int j = 0; j < fractal_addition.length; j++ )
         {
+            cout << "adding fractal piont..." << endl;
             new_fractal.addPoint(fractal_addition.points[j]);
         }
     }
     iterations++;
+    cout << "deleting old fractal points" << endl;
     delete fractal.points;
+    cout << "changing out fractals!" << endl;
     fractal = new_fractal;
 }
 
