@@ -78,7 +78,7 @@ void drawField(int screen_height, int screen_width)
  ******************************************************************************/
 void drawText(char* text, int x)
 {
-    drawBitmapString(text, x, 0, Yellow);
+    drawBitmapString(text, x, -450, Yellow);
 }
 
  /***************************************************************************//**

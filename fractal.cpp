@@ -172,6 +172,7 @@ void step ( int value )
 void display( void )
 {
     glClear( GL_COLOR_BUFFER_BIT );
+    drawField(ScreenHeight, ScreenWidth);
     switch( current_screen )
     {
         case INITIATOR_SHAPE:
