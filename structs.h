@@ -1,4 +1,5 @@
 #include <cmath>
+#include <iostream>
 
 // colors {R, G, B}
 const float Black[]	= { 0.0, 0.0, 0.0 };
@@ -13,14 +14,14 @@ const float White[]	= { 1.0, 1.0, 1.0 };
 
 struct Point
 {
-    int x;
-    int y;
+    double x;
+    double y;
 };
 
 struct Polygon
 {
     Point* points;
-    int length = 0;   // the number of points  
+    unsigned long length = 0;   // the number of points  
 
     void close();
     void addPoint( Point point );
@@ -33,5 +34,5 @@ struct Polygon
 void rotate(Polygon poly, double angle);
 void scale(Polygon poly, double scalar);
 void translate(Polygon poly, int x, int y);
-
+void printPoints(Polygon poly);
 

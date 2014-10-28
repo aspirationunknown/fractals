@@ -29,16 +29,20 @@ bool Polygon::normalize()
     // transforms an open polygon so the first and last points are on (0, 0) and (1, 0)
     if (this->points[0].x == this -> points[this->length-1].x && this->points[0].y == this -> points[this->length-1].y)
         return false;
-
+    
+    translate(*this, -this->points[0].x, -this->points[0].y);
     //scale to length 1
     delta_x = this->points[this->length-1].x - this->points[0].x;
     delta_y = this->points[this->length-1].y - this->points[0].y;
     distance = sqrt((delta_x*delta_x) + (delta_y * delta_y));
+    std::cout << "Distance: " << distance << std::endl;
     scale(*this, (1.0 / distance));
 
     //rotate so first and last points are on x-axis
     theta = atan(delta_y / delta_x);
     rotate(*this, -theta);
+
+    return true;
 
 }
 
@@ -62,6 +66,8 @@ void rotate(Polygon poly, double angle)
         poly.points[i].x = current.x * cos(angle) - current.y * sin(angle);
         poly.points[i].y = current.x * sin(angle) - current.y * cos(angle);
     }
+    std::cout << "Rotating" << std::endl;
+    printPoints(poly);//for debugging
 }
 
  /***************************************************************************//**
@@ -81,6 +87,8 @@ void scale(Polygon poly, double scalar)
         poly.points[i].x *= scalar;
         poly.points[i].y *= scalar;
     }
+    std::cout << "Scaling" << std::endl;
+    printPoints(poly);//for debugging
 }
 
  /***************************************************************************//**
@@ -101,6 +109,17 @@ void translate(Polygon poly, int x, int y)
         poly.points[i].x += x;
         poly.points[i].y += y;
     }
+    std::cout << "Translating" << std::endl;
+    printPoints(poly);//for debugging
 }
 
+void printPoints(Polygon poly)
+{
+    int i;
 
+    for(i = 0; i < poly.length; ++i)
+    {
+        std::cout << "Point " << i << " x = " << poly.points[i].x << ", y = " << poly.points[i].y << std::endl;
+    }
+  
+}
