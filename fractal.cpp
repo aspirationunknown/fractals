@@ -39,7 +39,11 @@
                 
                         
  * Details -  
-            The structure of fractals is 
+            The structure of fractal is similar to Pong.  The main file, fractal.cpp, holds all
+            global variables, callback functions and opengl functionality.  Again as in Pong, the
+            state of the application is determined by a screen enum.  There are three screens:
+                - Initiator: Drawing the initiator state on the left hand of the screen
+                - Generator: Drawing the generator patteron on the right hand of the screen
  *
  * Issues and Bugs - 
             No bugs to speak of.
@@ -403,7 +407,7 @@ void fractal_step()
         Polygon fractal_addition = fitPattern(generator, generator.points[i], generator.points[i + 1]);
         for ( unsigned long j = 0; j < fractal_addition.length; j++ )
         {
-            cout << "adding fractal piont..." << endl;
+            cout << "adding fractal piont x = " << new_fractal.points[j].x << " y = " << new_fractal.points[j].y << endl;
             new_fractal.addPoint(fractal_addition.points[j]);
         }
     }
