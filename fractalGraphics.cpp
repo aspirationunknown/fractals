@@ -134,14 +134,33 @@ const char* itoa(int num)
  ******************************************************************************/
 drawCircle(Point point)
 {
-    int radius = 2;
+    Point first, second;
+    int radius = 3;
+    
+    first.x = point.x - radius;
+    first.y = point.y + radius;
+    second.x = point.x + radius;
+    second.y = point.y + radius;
+    drawLine(first, second, White); //top
 
-    glColor3f( White[0], White[1], White[2] );
-    glPushMatrix();
-    GLUquadricObj *disk = gluNewQuadric();
-    gluDisk( disk, radius, radius, radius, 1 );
-    gluDeleteQuadric( disk );
-    glPopMatrix();
+    first.x = point.x - radius;
+    first.y = point.y + radius;
+    second.x = point.x - radius;
+    second.y = point.y - radius;
+    drawLine(first, second, White); //left
+
+    first.x = point.x + radius;
+    first.y = point.y - radius;
+    second.x = point.x - radius;
+    second.y = point.y - radius;
+    drawLine(first, second, White); //bottom
+
+    first.x = point.x + radius;
+    first.y = point.y + radius;
+    second.x = point.x + radius;
+    second.y = point.y - radius;
+    drawLine(first, second, White); //right
+    
 }
 //function to replace a line with the generator pattern
 
