@@ -16,7 +16,7 @@
  *
  * Usage - 
             To Compile: make
-            To Run: ./pong
+            To Run: ./fractal
 
             This application is a fractal generator which requries the user
             to draw an initiator shape and a generator pattern with a series of
@@ -36,14 +36,31 @@
             
              - Click to create endpoints
              - After two or more endpoints have been drawn, right click to end the pattern
+
+            Press Esc to end the program.
                 
                         
  * Details -  
             The structure of fractal is similar to Pong.  The main file, fractal.cpp, holds all
             global variables, callback functions and opengl functionality.  Again as in Pong, the
             state of the application is determined by a screen enum.  There are three screens:
+
                 - Initiator: Drawing the initiator state on the left hand of the screen
                 - Generator: Drawing the generator patteron on the right hand of the screen
+                - Fractal: Adding new points into the generator shape to create the fractal
+            
+            Switch statements in the display and step functions determine which screen is drawn.
+            I/O, such as adding points, exiting the program, and switching screens, is all handled
+            in callback functions.
+
+            All graphical functions, from drawing lines to whole polygons and text, is found in
+            fractalGraphics.cpp.  It makes use of const colors found in structs.h.  fractal.h links
+            together structs.h with fractal.cpp an fractalGraphics.cpp, so both files may make use of
+            the program's structs and struct functionality and fractal.cpp can call the graphics functions.
+
+            structs.h holds the Point and Polygon structs, which are used to build the initiator shape
+            and generator pattern.  There are functions associated with Polygon in structs.cpp, and in
+            addition auxillary functions are in structs.cpp which are used to transform polygons.
  *
  * Issues and Bugs - 
             No bugs to speak of.
