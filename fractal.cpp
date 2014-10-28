@@ -413,7 +413,8 @@ void fractal_step()
     cout << "deleting old fractal points" << endl;
     delete fractal.points;
     cout << "changing out fractals!" << endl;
-    fractal = new_fractal;
+    fractal.points = new_fractal.points;
+    fractal.length = new_fractal.length;
 }
 
  /***************************************************************************//**
