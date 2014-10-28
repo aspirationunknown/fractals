@@ -336,11 +336,13 @@ void right_up(int x, int y)
  ******************************************************************************/
 void display_initiator()
 {
-    char* text = "Right-Click to Close Initiator";
+    char* text = new(nothrow) char[30];
+    strcpy(text, "Right-Click to Close Initiator");
     drawText(text, - ScreenWidth + 32 );
     drawPolygon(initiator, White);
     if(mouse_pressed && initiator.length >= 1)
         drawLine(initiator.points[initiator.length-1], mouse_point, White);
+    delete text;
 }
 
  /***************************************************************************//**
@@ -351,11 +353,13 @@ void display_initiator()
  ******************************************************************************/
 void display_generator()
 {
-    char* text = "Right-Click to End Generator";
+    char* text = new(nothrow) char[30];
+    strcpy(text, "Right-Click to End Generator");
     drawText(text, 32 );
     drawPolygon(generator, White);
     if(mouse_pressed && generator.length >= 1)
         drawLine(generator.points[generator.length-1], mouse_point, White);
+    delete text;
 }
 
  /***************************************************************************//**
@@ -367,9 +371,7 @@ void display_generator()
 void display_fractal()
 {
     const char* iter_str = itoa(iterations);
-    char* text;
-
-    text = new char[30];
+    char* text = new char[30];
 
     strcpy(text, "Fractal iteration: ");
     strcat(text, iter_str);

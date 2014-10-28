@@ -1,5 +1,11 @@
 #include "fractal.h"
 
+ /***************************************************************************//**
+ * Draw Line
+ * Authors - Derek Stotz, Charles Parsons
+ *
+ * Draws a colored line on the viewport.
+ ******************************************************************************/
 void drawLine(Point first, Point second, const float color[])
 {
     glColor3fv(color);
@@ -10,6 +16,12 @@ void drawLine(Point first, Point second, const float color[])
     glFlush();
 }
 
+ /***************************************************************************//**
+ * Draw Polygon
+ * Authors - Derek Stotz, Charles Parsons
+ *
+ * Draws a given polygon in a given color.
+ ******************************************************************************/
 void drawPolygon(Polygon poly, const float color[])
 {
     int i, size;
@@ -24,6 +36,13 @@ void drawPolygon(Polygon poly, const float color[])
 
 }
 
+ /***************************************************************************//**
+ * Draw Field
+ * Authors - Derek Stotz, Charles Parsons
+ *
+ * Draws a white box in the middle of viewport to separate starting shape and
+ * generator pattern.
+ ******************************************************************************/
 void drawField(int screen_height, int screen_width)
 {
     Point poly[4];
@@ -47,11 +66,25 @@ void drawField(int screen_height, int screen_width)
     
 }
 
+ /***************************************************************************//**
+ * Draw Text
+ * Authors - Derek Stotz, Charles Parsons
+ *
+ * Draws specified text in a specified area of the viewport.
+ ******************************************************************************/
 void drawText(char* text, int x)
 {
     drawBitmapString(text, x, 0, Yellow);
 }
 
+ /***************************************************************************//**
+ * Fit Pattern
+ * Authors - Derek Stotz, Charles Parsons
+ *
+ * Determines the angle of the line to be replaced, scales the pattern to the 
+ * length of that line, rotates the pattern to the proper angle, and translates
+ * the pattern to the location of the original line.
+ ******************************************************************************/
 Polygon fitPattern(Polygon poly, Point start, Point end)
 {
     int delta_x, delta_y;
@@ -77,6 +110,12 @@ Polygon fitPattern(Polygon poly, Point start, Point end)
     return poly;
 }
 
+ /***************************************************************************//**
+ * itoa
+ * Authors - Derek Stotz, Charles Parsons
+ *
+ * Converts an integer to a character string.
+ ******************************************************************************/
 const char* itoa(int num)
 {
     std::string str;

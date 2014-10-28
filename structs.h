@@ -29,7 +29,7 @@ struct Polygon
 };
 
 
-//functions
+//transform functions
 void rotate(Polygon poly, double angle);
 void scale(Polygon poly, double scalar);
 void translate(Polygon poly, int x, int y);

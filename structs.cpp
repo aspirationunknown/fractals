@@ -28,7 +28,12 @@ bool Polygon::normalize()
         return false;
 }
 
-//transform functions
+ /***************************************************************************//**
+ * Rotate
+ * Authors - Derek Stotz, Charles Parsons
+ *
+ * Rotates the points of a given polygon by a given angle.
+ ******************************************************************************/
 void rotate(Polygon poly, double angle)
 {
     Point current;
@@ -45,6 +50,12 @@ void rotate(Polygon poly, double angle)
     }
 }
 
+ /***************************************************************************//**
+ * Scale
+ * Authors - Derek Stotz, Charles Parsons
+ *
+ * Scales a given polygon by a given scalar value.
+ ******************************************************************************/
 void scale(Polygon poly, double scalar)
 {
     int i, size;
@@ -58,6 +69,12 @@ void scale(Polygon poly, double scalar)
     }
 }
 
+ /***************************************************************************//**
+ * Translate
+ * Authors - Derek Stotz, Charles Parsons
+ *
+ * Translates a given polygon to a given point.
+ ******************************************************************************/
 void translate(Polygon poly, int x, int y)
 {
 
