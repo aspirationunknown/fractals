@@ -58,7 +58,8 @@ void rotate(Polygon poly, double angle)
     int i, size;
 
     size = poly.length;
-
+    std::cout << "Before Rotating, angle = " << angle << std::endl;
+    printPoints(poly);//for debugging
     for(i = 0; i < size; ++i)
     {
         current.x = poly.points[i].x;
@@ -66,7 +67,7 @@ void rotate(Polygon poly, double angle)
         poly.points[i].x = current.x * cos(angle) - current.y * sin(angle);
         poly.points[i].y = current.x * sin(angle) - current.y * cos(angle);
     }
-    std::cout << "Rotating" << std::endl;
+    std::cout << "After Rotating" << std::endl;
     printPoints(poly);//for debugging
 }
 
@@ -81,7 +82,8 @@ void scale(Polygon poly, double scalar)
     int i, size;
 
     size = poly.length;
-
+    std::cout << "Before Scaling, Scalar = " << scalar << std::endl;
+    printPoints(poly);//for debugging
     for(i = 0; i < size; ++i)
     {
         poly.points[i].x *= scalar;
@@ -103,7 +105,8 @@ void translate(Polygon poly, int x, int y)
     int i, size;
     
     size = poly.length;
-
+    std::cout << "Before Translating, x = " << x << ", y = " << y << std::endl;
+    printPoints(poly);//for debugging
     for(i = 0; i < size; ++i)
     {
         poly.points[i].x += x;
