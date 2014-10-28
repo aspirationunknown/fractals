@@ -89,9 +89,9 @@ void drawText(char* text, int x)
  * length of that line, rotates the pattern to the proper angle, and translates
  * the pattern to the location of the original line.
  ******************************************************************************/
-Polygon fitPattern(Polygon poly, Point start, Point end, Polygon result)
+void fitPattern(Polygon poly, Point start, Point end, Polygon result)
 {
-    int delta_x, delta_y;
+    double delta_x, delta_y;
     double distance = 0.0;
     double theta = 0.0;
 
@@ -104,7 +104,7 @@ Polygon fitPattern(Polygon poly, Point start, Point end, Polygon result)
     else
         theta = atan(delta_y / delta_x);
 
-    for (int i = 0; i < poly.length; i++)
+    for (unsigned long i = 0; i < poly.length; i++)
     {
         result.addPoint(poly.points[i]);
     }

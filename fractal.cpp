@@ -204,7 +204,6 @@ void display( void )
         case GENERATOR_PATTERN:
             if(mouse_pressed && generator.length >= 1)
                 drawLine(generator.points[generator.length-1], mouse_point, White);
-            display_initiator();
             display_generator();
             break;
         case FRACTAL:
@@ -253,8 +252,8 @@ void reshape( int w, int h )
  ******************************************************************************/
 void screenSetup()
 {
-    initiator.points = new Point[100];
-    initiator.addPoint(-ScreenWidth + 64, 0);
+    initiator.points = new Point[100000];
+    initiator.addPoint(-ScreenWidth + 256, 0);
     generator.points = new Point[100];
     generator.addPoint(64, 0);
 }
@@ -284,6 +283,9 @@ void keyboard_down( unsigned char key, int x, int y )
  ******************************************************************************/
 void mouse_action(int button, int state, int x, int y)
 {
+    mouse_point.x = x * 2 - ScreenWidth;
+    mouse_point.y = - y * 2 + ScreenHeight;
+
     if(button == GLUT_LEFT_BUTTON)
     {
         if(state == GLUT_UP)
@@ -347,7 +349,7 @@ void right_up(int x, int y)
         case GENERATOR_PATTERN:
             if( generator.length > 1 )
             {
-		generator.normalize();
+                generator.normalize();
                 current_screen = FRACTAL;
             }
             break;
@@ -382,6 +384,7 @@ void display_generator()
     char* text = new(nothrow) char[30];
     strcpy(text, "Right-Click to End Generator");
     drawText(text, 32 );
+    drawPolygon(initiator, White, false);
     drawPolygon(generator, White, true);
     delete text;
 }
@@ -400,6 +403,7 @@ void display_fractal()
     strcpy(text, "Fractal iteration: ");
     strcat(text, iter_str);
     drawText(text, - ScreenWidth + 32 );
+    drawPolygon(initiator, White, false);
     drawPolygon(generator, White, false);
     delete text;
 }
@@ -417,14 +421,14 @@ void fractal_step()
         return;
 
     Polygon new_fractal;
-    cout << "Fractal Length: " << itoa(generator.length) << endl;
+    cout << "Fractal Length: " << itoa(initiator.length) << endl;
     new_fractal.points = new Point[1000000];
-    for( unsigned long i = 0; i < generator.length - 1; i++ )
+    for( unsigned long i = 0; i < initiator.length - 1; i++ )
     {
         cout << "starting new edge" << endl;
         Polygon fractal_addition;
         fractal_addition.points = new Point[100000];
-	fitPattern(generator, generator.points[i], generator.points[i + 1], fractal_addition);
+	    fitPattern(generator, initiator.points[i], initiator.points[i + 1], fractal_addition);
         for ( unsigned long j = 0; j < fractal_addition.length; j++ )
         {
             cout << "adding fractal piont x = " << new_fractal.points[j].x << " y = " << new_fractal.points[j].y << endl;
@@ -434,11 +438,11 @@ void fractal_step()
     }
     iterations++;
     cout << "replacing old fractal points" << endl;
-    generator.length = new_fractal.length;
+    initiator.length = new_fractal.length;
 
-    for(unsigned long i = 0; i < generator.length; i++)
+    for(unsigned long i = 0; i < initiator.length; i++)
     {
-        generator.points[i] = new_fractal.points[i];
+        initiator.points[i] = new_fractal.points[i];
     }
 
     delete new_fractal.points;
