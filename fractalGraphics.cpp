@@ -27,6 +27,8 @@ void drawPolygon(Polygon poly, const float color[], bool drawPoints)
     int i, size;
 
     size = poly.length;
+    std::cout << "polygon length = " << size << std::endl;
+    std::cout << "x = " << poly.points[0].x << ", y = " << poly.points[0].y << std::endl;
 
     if(drawPoints)
         drawCircle(poly.points[0]);
@@ -170,6 +172,50 @@ void drawCircle(Point point)
     second.x = point.x + radius;
     second.y = point.y - radius;
     drawLine(first, second, White); //right
+}
+
+void horizontalFlip(Polygon poly)
+{
+    int i, size;
+    Point start;
+
+    start.x = poly.points[0].x;
+    start.y = poly.points[0].y;
+    size = poly.length;
+
+    //translate to origin
+    translate(poly, -start.x, -start.y);
+
+    //flip x coordinate signs
+    for(i = 0; i < size; ++i)
+    {
+        poly.points[i].x *= -1;
+    }
+
+    //translate back
+    translate(poly, start.x, start.y);
+}
+
+void verticalFlip(Polygon poly)
+{
+    int i, size;
+    Point start;
+
+    start.x = poly.points[0].x;
+    start.y = poly.points[0].y;
+    size = poly.length;
+
+    //translate to origin
+    translate(poly, -start.x, -start.y);
+
+    //flip y coordinate signs
+    for(i = 0; i < size; ++i)
+    {
+        poly.points[i].y *= -1;
+    }
+
+    //translate back
+    translate(poly, start.x, start.y);
 }
 //function to replace a line with the generator pattern
 
